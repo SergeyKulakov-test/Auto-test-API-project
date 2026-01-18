@@ -1,6 +1,7 @@
 from API_PUT_request import TestMapApiPutRequest
 from home_work import TestMapApi
 
+
 if __name__ == "__main__":
     test_put_request = TestMapApiPutRequest()
     new_address = test_put_request.put_body["address"]  # Новый адрес
