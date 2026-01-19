@@ -2,35 +2,39 @@ from home_work import MapApi
 
 
 if __name__ == "__main__":
-    test_put_request = MapApi()
-    new_address = "101 Artelnaya street"  # Новый адрес
-    print(new_address)
+    test_map_api_request = MapApi()
 
-    place_id = test_put_request.get_place_id_in_file()[0]  # Получение ID из файла
-    print(place_id)
+    place_id_list = test_map_api_request.get_place_id_in_file()  # Получение списка ID из файла
+    print(place_id_list)
 
-    body = test_put_request.create_body_put_request(place_id, new_address)  # Добавление ID в тело запроса
-    print(body)
-
-    url = test_put_request.url + test_put_request.put_resource + test_put_request.key  # Ссылка для PUT запроса
+    url = test_map_api_request.url + test_map_api_request.delete_resource + test_map_api_request.key  # Ссылка для DELETE запроса
     print(url)
 
-    result_put = test_put_request.put_request(body, url)
-    print(result_put.json())
-    print(result_put.status_code)
+    # Удаление 2 и 4 локаций
+    for i in range(len(place_id_list)):
+        body = {"place_id": place_id_list[i]}
+        if i == 1 or i == 3:
+            result_delete = test_map_api_request.delete_request(body, url)
+            print(result_delete.status_code)
+            assert result_delete.status_code == 200, "Статус код не верен"
+            print(f"Локация с ID - {place_id_list[i]} удалена")
 
-    assert result_put.status_code == 200, "Статус код не верен"  # Проверка PUT запроса
-    print(f"Статус код PUT запроса: {result_put.status_code}")
+    get_url = test_map_api_request.url + test_map_api_request.get_resource + test_map_api_request.key + "&place_id="  # Ссылка для GET запроса
 
-    get_url = test_put_request.url + test_put_request.get_resource + test_put_request.key + "&place_id=" + place_id  # Ссылка для GET запроса
+    #GET запросы по ID
+    for list in place_id_list:
+        print(get_url + list)
+        get_result = test_map_api_request.get_request(get_url + list)
+        print(get_result.status_code)
+        print(get_result.json())
 
-    get_result = test_put_request.get_request(get_url)  # Получение данных для проверки
-    print(get_result.json())
-
-    assert get_result.status_code == 200, "Статус код верен"  # Проверка GET запроса
-    print(f"Статус код GET запроса: {get_result.status_code}")
-
-    assert get_result.json()["address"] == new_address, "Адресс не изменен"
-    print("Данные успешно обновлены")
+        #Отбор существующих локаций
+        if get_result.status_code == 200:
+            with open('current_locations.txt', 'a', encoding='utf-8') as file:
+                file.write(list + "\n")
+                print()
+        else:
+            assert get_result.status_code == 404, "Статус код не верен"
+            print(f"Запись с ID={list} не найдена")
 
     print("Тест завершен")

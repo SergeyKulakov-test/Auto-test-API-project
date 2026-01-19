@@ -7,6 +7,7 @@ class MapApi:
         self.post_resource = "/maps/api/place/add/json" #Чать для POST запроса
         self.get_resource = "/maps/api/place/get/json" #Чать для GET запроса
         self.put_resource = "/maps/api/place/update/json"  #Чать для PUT запроса
+        self.delete_resource = "/maps/api/place/delete/json"  #Часть для DELETE запроса
         self.key = "?key=qaclick123"                    #Ключ
         #Тело POST запроса
         self.body = {"location": {
@@ -40,7 +41,6 @@ class MapApi:
     @staticmethod
     def get_request(get_url):
         request_get = requests.get(get_url)
-        print(request_get)
         return request_get
 
     # PUT запрос
@@ -48,6 +48,12 @@ class MapApi:
     def put_request(body, url):
         request_put = requests.put(url, json=body)
         return request_put
+
+    #DELETE запрос
+    @staticmethod
+    def delete_request(body, url):
+        request_delete = requests.delete(url, json=body)
+        return request_delete
 
     # Создание тела PUT запроса
     def create_body_put_request(self, place_id, address):
