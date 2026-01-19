@@ -3,7 +3,7 @@ from home_work import MapApi
 
 if __name__ == "__main__":
     test_put_request = MapApi()
-    new_address = "10 Artelnaya street"  # Новый адрес
+    new_address = "101 Artelnaya street"  # Новый адрес
     print(new_address)
 
     place_id = test_put_request.get_place_id_in_file()[0]  # Получение ID из файла

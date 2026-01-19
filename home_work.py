@@ -30,19 +30,22 @@ class MapApi:
         }
     #POST запрос
     # Создание локации
-    def create_location(self, body, post_url):
+    @staticmethod
+    def create_location(body, post_url):
         request_post = requests.post(post_url, json=body)
         print(request_post.json())
         return request_post
 
     # Get запрос
-    def get_request(self, get_url):
+    @staticmethod
+    def get_request(get_url):
         request_get = requests.get(get_url)
         print(request_get)
         return request_get
 
     # PUT запрос
-    def put_request(self, body, url):
+    @staticmethod
+    def put_request(body, url):
         request_put = requests.put(url, json=body)
         return request_put
 
@@ -60,7 +63,8 @@ class MapApi:
         self.delete_place_id_in_file()
 
     # Удаление лишних ID
-    def delete_place_id_in_file(self):
+    @staticmethod
+    def delete_place_id_in_file():
         with open('test_place_id.txt', 'r', encoding='utf-8') as file:
             lines = file.readlines()
         if len(lines) > 5:
@@ -70,7 +74,8 @@ class MapApi:
         print("ID записан в файл")
 
     # Получение ID из файла
-    def get_place_id_in_file(self):
+    @staticmethod
+    def get_place_id_in_file():
         with open('test_place_id.txt', 'r', encoding='utf-8') as file:
             lines = file.readlines()
         lines = [s.strip("\n") for s in lines]
