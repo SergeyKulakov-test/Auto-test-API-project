@@ -75,32 +75,3 @@ class MapApi:
             lines = file.readlines()
         lines = [s.strip("\n") for s in lines]
         return lines
-
-if __name__ == "__main__":
-    create_location = TestMapApi()  # Создаие экземпляра класса
-    post_url = create_location.url + create_location.post_resource  # Ссылка для POST запроса
-    get_url = create_location.url + create_location.get_resource + create_location.key + "&place_id="  # Часть для GET запроса
-    # Отправка 5-ти POST запросов
-    for i in range(5):
-        post_result = create_location.create_location(create_location.body, post_url)
-        print(post_result.json().get("status"))
-
-        assert post_result.json().get("status") == "OK", "Статус код не верен"  # Проверка, что запрос отправлен корректно
-        print("Запрос POST успешен")
-
-        create_location.save_place_id(post_result)  #Добавление ID в файл
-
-    lines = create_location.get_place_id_in_file()   # Получение ID из файла
-    print(lines)
-
-    for line in lines:   # Отправка запросов по ID из файла
-        print(get_url + line)
-        get_result = create_location.get_request(get_url + line)
-        print(get_result.json())
-
-        assert get_result.status_code == 200, "Статус код не верен"  # Проверка, что запрос верен
-        print("Запрос GET успешен")
-
-    print("Тест завершен")
-
-
