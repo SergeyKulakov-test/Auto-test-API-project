@@ -10,17 +10,19 @@ class MapApi:
         self.delete_resource = "/maps/api/place/delete/json"  #Часть для DELETE запроса
         self.key = "?key=qaclick123"                    #Ключ
         #Тело POST запроса
-        self.body = {"location": {
+        self.body = {
+            "location":
+                {
                 "lat": -38.383494,
                 "lng": 33.427362
-                        }, "accuracy": 50,
-                "name": "Frontline house",
-                "phone_number":
-                "(+91) 983 893 3937",
-                "address": "29, side layout, cohen 09",
-                "types": ["shoe park", "shop"],
-                "website": "http://google.com",
-                "language": "French-IN"
+                },
+            "accuracy": 50,
+            "name": "Frontline house",
+            "phone_number": "(+91) 983 893 3937",
+            "address": "29, side layout, cohen 09",
+            "types": ["shoe park", "shop"],
+            "website": "http://google.com",
+            "language": "French-IN"
                 }
         # Тело PUT запроса
         self.put_body = {
@@ -32,7 +34,7 @@ class MapApi:
     #POST запрос
     # Создание локации
     @staticmethod
-    def create_location(body, post_url):
+    def create_location(post_url, body):
         request_post = requests.post(post_url, json=body)
         print(request_post.json())
         return request_post
@@ -45,7 +47,7 @@ class MapApi:
 
     # PUT запрос
     @staticmethod
-    def put_request(body, url):
+    def put_request(url, body):
         request_put = requests.put(url, json=body)
         return request_put
 
@@ -81,8 +83,26 @@ class MapApi:
 
     # Получение ID из файла
     @staticmethod
-    def get_place_id_in_file():
-        with open('test_place_id.txt', 'r', encoding='utf-8') as file:
+    def get_place_id_in_file(file_name):
+        with open(file_name, 'r', encoding='utf-8') as file:
             lines = file.readlines()
         lines = [s.strip("\n") for s in lines]
         return lines
+
+    #Проверка списка существующих локаций
+    @staticmethod
+    def check_current_location(lines, current_lines):
+        if lines[1] in current_lines:
+            print("Запись не удалена")
+        else:
+            print("Запись со вторым ID удалена")
+        if lines[3] in current_lines:
+            print("Запись не удалена")
+        else:
+            print("Запись с четвертым ID удалена")
+
+    #Очистка файла
+    @staticmethod
+    def clear_file():
+        with open('current_locations.txt', 'w', encoding='utf-8') as file:
+            file.write("")
