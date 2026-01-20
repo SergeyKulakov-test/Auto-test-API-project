@@ -11,11 +11,10 @@ class MapApi:
         self.key = "?key=qaclick123"                    #Ключ
         #Тело POST запроса
         self.body = {
-            "location":
-                {
+            "location": {
                 "lat": -38.383494,
                 "lng": 33.427362
-                },
+            },
             "accuracy": 50,
             "name": "Frontline house",
             "phone_number": "(+91) 983 893 3937",
@@ -23,7 +22,8 @@ class MapApi:
             "types": ["shoe park", "shop"],
             "website": "http://google.com",
             "language": "French-IN"
-                }
+        }
+
         # Тело PUT запроса
         self.put_body = {
             "place_id": "",
@@ -31,6 +31,7 @@ class MapApi:
             "language": "RU_ru",
             "key": "qaclick123"
         }
+
     #POST запрос
     # Создание локации
     @staticmethod
